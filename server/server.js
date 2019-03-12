@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -28,9 +29,15 @@ app.get('/deletesnippetbyid', snippetController.deleteSnippet);
 
 // POST Endpoints
 
-app.post('/login', controller.verifyUser, sessionController.setCookie, sessionController.startSession);
+// app.post('/login', controller.verifyUser, sessionController.setCookie, sessionController.startSession);
+app.post('/login', controller.verifyUser, (req, res, next) => {
+    res.send("LOGIN, yay!");
+});
 
-app.post('/signup', controller.createUser, sessionController.setCookie, sessionController.startSession);
+// app.post('/signup', controller.createUser, sessionController.setCookie, sessionController.startSession);
+app.post('/signup', controller.createUser, (req, res, next) => {
+    res.send("Sign up!");
+});
 
 app.post('/createsnippet', snippetController.createSnippet, snippetController.createTags);
 

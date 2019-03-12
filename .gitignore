@@ -4,3 +4,4 @@ build/bundle.js
 build/index.html
 package-lock.json
 .env
+notes.txt
