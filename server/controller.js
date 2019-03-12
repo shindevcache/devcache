@@ -38,13 +38,13 @@ controller.verifyUser = (req, res, next) => {
 };
 
 controller.createUser = (req, res, next) => {
-  const { fullName, username, email, hash } = req.body;
+  const { fullname, username, email, password } = req.body;
 
   bcrypt.hash(password, saltRounds, (err, hash) => {
     const query = {
       name: 'create-user',
       text: 'INSERT INTO account(fullname, username, email, password) VALUES($1, $2, $3, $4) RETURNING user_id;',
-      values: [fullName, username, email, hash]
+      values: [fullname, username, email, hash]
     };
 
     pool.query(query)
