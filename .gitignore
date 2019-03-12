@@ -3,3 +3,4 @@ server/serverConfig.js
 build/bundle.js
 build/index.html
 package-lock.json
+.env
