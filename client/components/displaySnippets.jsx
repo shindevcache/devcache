@@ -1,7 +1,7 @@
 import React from 'react';
 
 const displaySnippets = props => {
-  const snippetsArray = props.taggedSnippets;
+  const snippetsArray = props.taggedSnippets.reduce((acc, val)=>{acc.concat(val)}, []); //may need to flatten (done)
   const snippetsDisplayArray = [];
 
   for (let i = 0; i < snippetsArray.length; i++) {
