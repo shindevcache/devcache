@@ -1,6 +1,5 @@
-const serverConfig = require('./serverConfig');
 const { Pool } = require("pg");
-const pool = new Pool(serverConfig);
+const pool = new Pool();
 
 const snippetController = {};
 
