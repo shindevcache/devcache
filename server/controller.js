@@ -3,7 +3,7 @@ const { Pool } = require("pg");
 const pool = new Pool(serverConfig);
 
 const uuid = require('uuid');
-const bcrypt =require('bcrypt');
+const bcrypt = require('bcrypt');
 const saltRounds = 3;
 
 const controller = {};
@@ -14,7 +14,7 @@ controller.verifyUser = (req, res, next) => {
   const { username, password } = req.body;
   const query = {
     name: 'verify-user',
-    text: 'SELECT * FROM account WHERE username = $1;',
+    text: 'SELECT * FROM accounts WHERE username = $1;',
     values: [username]
   };
 
@@ -43,7 +43,7 @@ controller.createUser = (req, res, next) => {
   bcrypt.hash(password, saltRounds, (err, hash) => {
     const query = {
       name: 'create-user',
-      text: 'INSERT INTO account(fullname, username, email, password) VALUES($1, $2, $3, $4) RETURNING user_id;',
+      text: 'INSERT INTO accounts(fullname, username, email, password) VALUES($1, $2, $3, $4) RETURNING user_id;',
       values: [fullname, username, email, hash]
     };
 
