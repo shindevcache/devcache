@@ -15,9 +15,12 @@ const snippetController = require('./snippetController.js');
 app.use(cors());
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use('/', express.static(path.join(__dirname, '../build')));
+app.use('/build', express.static(path.join(__dirname, '../build')));
  
 // GET Endpoints
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/index.html'));
+});
 app.get('/gettags', snippetController.getAllUserTags);
 app.get('/getsnippetsbytag', snippetController.getSnippetIdsByTag, snippetController.getSnippetsBySnippetIds);
 app.get('/deletesnippetbyid', snippetController.deleteSnippet);
@@ -29,12 +32,16 @@ app.post('/login', accountController.verifyUser, (req, res, next) => {
     //console.log('RES SEND: ', res.locals.account);
     res.send(res.locals.account);
 });
+
 // app.post('/signup', accountController.createUser, sessionController.setCookie, sessionController.startSession);
 app.post('/signup', accountController.createUser, (req, res, next) => {
     res.send("Sign up!");
 });
 
-app.post('/createsnippet', snippetController.createSnippet, snippetController.createTags);
+// app.post('/createsnippet', snippetController.createSnippet, snippetController.createTags);
+app.post('/createsnippet', snippetController.createSnippet, (req, res, next) => {
+    res.send('Snippet created');
+});
 
 // Server Port
 
