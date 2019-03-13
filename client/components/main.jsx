@@ -13,8 +13,7 @@ import SideBar from './sideBar.jsx';
 class Main extends Component {
 
   constructor(props) {
-    super();
-
+    super(props);
     this.state = {
       snippet: '',
       commments: '',
@@ -91,21 +90,22 @@ class Main extends Component {
   // Database Methods
 
   submitSnippet() {
-
+    console.log('this.props:', this.props.accountid)
     fetch('http://localhost:3000/createsnippet', {
       headers: { "Content-Type": "application/json" }, 
       method: 'post',
       body: JSON.stringify({ 
         snippet: this.state.snippet,
         comments: this.state.comments,
-        // project: this.state.project,
-        tags: this.state.tags
+        tags: this.state.tags,
         //should also have accountid, which will be passed down from App
+        accountid: this.accountid
       })
     })
     .then(res => {
       if (res.ok) this.getTagsFromDB()
     });
+    
   };
 
   submitSearch() {
