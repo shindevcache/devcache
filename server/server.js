@@ -8,8 +8,8 @@ const path = require('path');
 
 // Import Controllers
 const accountController = require('./controllers/accountController.js');
-const sessionController = require('./controllers/sessionController.js/index.js');
-const snippetController = require('./controllers/snippetController.js/index.js');
+const sessionController = require('./controllers/sessionController.js');
+const snippetController = require('./controllers/snippetController.js');
 
 // Blanket Calls
 app.use(cors());
