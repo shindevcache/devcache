@@ -28,40 +28,57 @@ app.get('/', (req, res) => {
  * 
  * 1. Verify account
  * 2. Get account
- * 3. TODO: Create session
- * 4. TODO: Set cookie
+ * 3. Create session
+ * 4. Set cookie
  */
-// app.post('/login', accountController.verifyUser, sessionController.setCookie, sessionController.startSession);
-app.post('/login', accountController.verifyAccount, accountController.getAccount, (req, res, next) => {
-    res.send(res.locals.account);
-});
+app.post('/login', sessionController.verifySession, 
+    accountController.verifyAccount, accountController.getAccount,
+    sessionController.startSession, sessionController.setCookie,
+    snippetController.getSnippets,
+    (req, res, next) => {
+        res.send({account: res.locals.account, snippets: res.locals.snippets});
+    });
 
 /**
  *  SIGN UP route
  * 
  * 1. Create account
  * 2. Get account
- * 3. // TODO: Create session
- * 4. // TODO: Set cookie
+ * 3. Create session
+ * 4. Set cookie
  */
-// app.post('/signup', accountController.createUser, sessionController.setCookie, sessionController.startSession);
-app.post('/signup', accountController.createAccount, accountController.getAccount, (req, res, next) => {
-    res.send(res.locals.account);
+app.post('/signup', accountController.createAccount, accountController.getAccount,
+        sessionController.startSession, sessionController.setCookie,
+        snippetController.getSnippets,
+        (req, res, next) => {
+            res.send({ account: res.locals.account, snippets: res.locals.snippets});
+        });
+
+/**
+ * LOG OUT route
+ * 
+ * 1. TODO: clear account
+ */
+app.post('/logout', accountController.logoutAccount, (req, res, next) => {
+    res.send();
 });
 
 /**
  *  SNIPPET route
- *  TODO: Post
+ *  Post
  *  TODO: Verify account
  */
-// app.post('/createsnippet', snippetController.createSnippet, snippetController.createTags);
-app.post('/api/snippet', snippetController.createSnippet, (req, res, next) => {
+app.post('/api/snippet', sessionController.verifySession, snippetController.createSnippet, (req, res, next) => {
     res.send('Snippet created');
 });
+app.get('/api/snippet', sessionController.verifySession, snippetController.getSnippets, (req, res, next) => {
+    res.send(res.locals.snippets);
+});
+
 
 // Catch all error handling
 app.use((err, req, res, next) => {
-    res.status(418).send(err);
+    res.status(418).send({msg: err.message});
 })
 
 // Server Port

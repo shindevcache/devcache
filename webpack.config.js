@@ -34,7 +34,7 @@ module.exports = {
     publicPath: '/build',
     contentBase: './client',
     proxy: [{
-      context: ['/api', '/signup', '/login'],
+      context: ['/api', '/login', '/signup', '/logout'],
       target: 'http://localhost:3000',
     }]
   },
