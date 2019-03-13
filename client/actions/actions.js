@@ -65,3 +65,7 @@ export const updateSearch = (value) => ({
   type: types.UPDATE_SEARCH,
   payload: value
 })
+
+export const toggleMode = () => ({
+  type: types.TOGGLE_MODE,
+})
