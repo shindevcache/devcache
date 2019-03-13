@@ -20,7 +20,7 @@ class App extends Component {
       email: "",
       isLoggedIn: false,
       isRegistered: false,
-      accountid: undefined
+      accountid: ""
     };
     
     this.updateFullNameState = this.updateFullNameState.bind(this);
@@ -73,7 +73,7 @@ class App extends Component {
 
   verifyUser() {
     const { username, password } = this.state;
-
+    
     fetch('http://localhost:3000/login', {
       headers: { "Content-Type": "application/json" }, 
       method: 'post',
@@ -81,20 +81,21 @@ class App extends Component {
     })
     .then(res => { //res should have an account object here. Store the 'id' property of this account object in state, and pass it down to Main, so that Main can use it when submitting snippets.
       console.log('res:', res)
-      if (res.ok) this.setState({ isLoggedIn: true });
+      if (res.ok) this.setState({
+        ...this.state,
+         isLoggedIn: true,
+         accountid: res.id
+        });
     })
     .catch(err => console.error('err -->', err));
 
-    // this.setState({
-    //   ...this.state,
-    //   accountid: 
-    // })
+    
   };
 
   render() {
     
     if (this.state.isLoggedIn) {
-      return <Main />
+      return <Main accountid={this.state.accountid}/>
     } else {
       if (this.state.isRegistered) {
         return (
