@@ -1,6 +1,5 @@
 const webpack = require('webpack');
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -33,21 +32,12 @@ module.exports = {
   },
   devServer: {
     publicPath: '/build',
-    contentBase: './',
+    contentBase: './client',
     proxy: {
       '/': {
         target: 'http://localhost:3000',
         secure: false
       }
     },
-    port: 8080,
-    hot: true
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new HtmlWebpackPlugin({
-      title: 'devCache',
-      template: './client/index.html'
-    })
-  ],
 };

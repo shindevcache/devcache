@@ -19,13 +19,15 @@ controller.verifyUser = (req, res, next) => {
 
   pool.query(query)
   .then(result => {
+    const account = result.rows[0];
     const hash = result.rows[0].password;
 
     bcrypt.compare(password, hash, function(err, judgement){
       if (judgement) {
         const session_id = uuid();
         res.locals.session_id = session_id;
-        res.locals.user_id = result.rows[0].user_id;
+        res.locals.accountid = result.rows[0].accountid;
+        res.locals = { account };
         next();
       } else {
         res.status(403).send('wrong pass :(');
@@ -33,7 +35,6 @@ controller.verifyUser = (req, res, next) => {
     });
   })
   .catch(err => console.error(err.stack));
-  next();
 };
 
 controller.createUser = (req, res, next) => {
