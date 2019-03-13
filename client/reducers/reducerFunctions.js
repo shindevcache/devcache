@@ -8,12 +8,12 @@ const initialState = {
   isLoggedIn: false,
   mode: 'login', //changes between 'login', 'register', and 'main'
   snippet: '',
-  comment: '',
+  comments: '',
   tags: '',
   search: '',
   userTags: [],
   taggedSnippets: [],
-  accountID: ''
+  accountid: ''
 }
 
 const stateReducer = (state = initialState, action) => {
@@ -50,42 +50,28 @@ const stateReducer = (state = initialState, action) => {
       }
     }
 
-    case types.LOGIN_USER: {
-      let password = '';
-      return {
-        ...state,
-        password
-      }
-    }
-
     case types.LOGIN: {
       let username = action.payload.username;
       let email = action.payload.email;
       let fullname = action.payload.fullname;
-      let accountID = action.payload.accountID; 
-      //what comes back to us from logging in should be: 
-      // {
-      //   username: ,
-      //   email: ,
-      //   fullname: ,
-      //   accountID: ,
-      // } ??????
+      let accountID = action.payload.id; 
       return {
         ...state,
         username,
         email,
         fullname,
-        accountID
+        accountID,
+        isLoggedIn: true
       }
     }
 
-    case types.REGISTER_USER: {
-      let password = '';
-      return {
-        ...state,
-        password
-      }
-    }
+    // case types.REGISTER_USER: { //unused
+    //   let password = '';
+    //   return {
+    //     ...state,
+    //     password
+    //   }
+    // }
 
     case types.UPDATE_SNIPPET: {
       let snippet = action.payload;
@@ -95,11 +81,11 @@ const stateReducer = (state = initialState, action) => {
       }
     }
 
-    case types.UPDATE_COMMENT: {
-      let comment = action.payload;
+    case types.UPDATE_COMMENTS: {
+      let comments = action.payload;
       return {
         ...state,
-        comment
+        comments
       }
     }
 
@@ -112,9 +98,10 @@ const stateReducer = (state = initialState, action) => {
     }
 
     case types.SUBMIT_SNIPPET: {
-      
+      let snippet = ''
       return {
         ...state,
+        snippet
       }
     }
 
@@ -133,6 +120,30 @@ const stateReducer = (state = initialState, action) => {
       return {
         ...state,
         mode
+      }
+    }
+
+    case types.LOGIN_FAIL: {
+      return {
+        ...state
+      }
+    }
+
+    case types.LOGOUT: {
+      return {
+        username: '',
+        password: '',
+        fullname: '',
+        email: '',
+        isLoggedIn: false,
+        mode: 'login',
+        snippet: '',
+        comments: '',
+        tags: '',
+        search: '',
+        userTags: [],
+        taggedSnippets: [],
+        accountid: ''
       }
     }
 

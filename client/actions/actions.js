@@ -22,20 +22,26 @@ export const updateEmail = (value) => ({
 })
 
 export const loginUser = (username, password) => dispatch => {
-  return Axios('/login', {username: username, password: password})
-    .then(userInfo => dispatch(logIn(userInfo)))
-    .catch(err => dispatch(err)) // ???
+  return Axios.post('/login', {username: username, password: password})
+    .then(userInfo => {
+      console.log('userInfo.data upon login:', userInfo.data);
+      dispatch(logIn(userInfo.data)) //return?
+    })
+    .catch(err => console.log(err)) // ???
 }
 
 export const logIn = (userInfo) => ({
   type: types.LOGIN,
-  payload: userInfo
+  payload: userInfo //
 })
 
 export const registerUser = (username, password, fullname, email) => dispatch => {
-  return Axios('/signup', {username: username, password: password, fullname: fullname, email: email})
-    .then(userInfo => dispatch(logIn(userInfo)))
-    .catch(err => dispatch(err))  
+  return Axios.post('/signup', {username: username, password: password, fullname: fullname, email: email})
+    .then(userInfo => {
+      console.log('register success')
+      dispatch(logIn(userInfo))
+    })
+    .catch(err => console.log(err))
 }
 
 export const updateSnippet = (value) => ({
@@ -43,8 +49,8 @@ export const updateSnippet = (value) => ({
   payload: value
 })
 
-export const updateComment = (value) => ({
-  type: types.UPDATE_COMMENT,
+export const updateComments = (value) => ({
+  type: types.UPDATE_COMMENTS,
   payload: value
 })
 
@@ -53,13 +59,15 @@ export const updateTags = (value) => ({
   payload: value
 })
 
-export const submitSnippet = (snippet, tags) => ({ //
-  type: types.SUBMIT_SNIPPET,
-  payload: {
-    snippet: snippet,
-    tags: tags
-  }
-})
+export const submitSnippet = (snippet, comments, accountid) => dispatch => { 
+  return Axios.post('/api/snippet', {snippet: snippet, comments: comments, accountid: accountid})
+        .then(result => {
+          console.log('result from submitSnippet:', result)
+          console.log('submit success')
+          dispatch()
+        })
+        .catch(err => console.log(err))
+}
 
 export const updateSearch = (value) => ({
   type: types.UPDATE_SEARCH,
@@ -68,4 +76,13 @@ export const updateSearch = (value) => ({
 
 export const toggleMode = () => ({
   type: types.TOGGLE_MODE,
+})
+
+export const loginFail = (value) => ({
+  type: types.LOGIN_FAIL,
+  payload: value
+})
+
+export const logout = () => ({
+  type: types.LOGOUT,
 })
