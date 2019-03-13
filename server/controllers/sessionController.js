@@ -32,7 +32,7 @@ sessionController.startSession = (req, res, next) => {
   }).catch(e => next(new Error('Problem - starting session: ' + e)));
 };
 
-// TODO: verify session and get the account id if found
+// verify session and get the account id if found
 sessionController.verifySession = async (req, res, next) => {
   if(!req.cookies.ssid){
     next(new Error('Not authorized for get snippets'));

@@ -17,7 +17,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use('/build', express.static(path.join(__dirname, '../build')));
  
-// GET Endpoints
+// Domain root
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/index.html'));
 });
