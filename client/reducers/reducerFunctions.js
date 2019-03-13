@@ -126,6 +126,16 @@ const stateReducer = (state = initialState, action) => {
       }
     }
 
+    case types.TOGGLE_MODE: {
+      let mode = state.mode;
+      if (mode === 'login') mode = 'register'
+      else if (mode === 'register') mode = 'login'
+      return {
+        ...state,
+        mode
+      }
+    }
+
     default:
       return state;
   }
