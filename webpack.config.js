@@ -1,6 +1,5 @@
 const webpack = require('webpack');
 const path = require('path');
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -40,14 +39,5 @@ module.exports = {
         secure: false
       }
     },
-    port: 8080,
-    hot: true
   },
-  // plugins: [
-  //   new webpack.HotModuleReplacementPlugin(),
-  //   new HtmlWebpackPlugin({
-  //     title: 'devCache',
-  //     template: './client/index.html'
-  //   })
-  // ],
 };
