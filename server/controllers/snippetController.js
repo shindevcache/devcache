@@ -58,7 +58,7 @@ snippetController.getSnippets = async (req, res, next) => {
 snippetController.createTags = (req, res) => {
   const promises = [];
   const snippet_id = res.locals.snippet_id;
-  const tags = req.body.tags.split(", ");
+  const tags = req.body.tags.split(", "); // split on comma, then strip whitespace
 
   tags.forEach(tag => {
     const tagQuery = {

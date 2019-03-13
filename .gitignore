@@ -5,3 +5,4 @@ build/index.html
 package-lock.json
 .env
 notes.txt
+.DS_Store
