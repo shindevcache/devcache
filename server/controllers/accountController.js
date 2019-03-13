@@ -68,15 +68,15 @@ accountController.createAccount = (req, res, next) => {
  * {id, fullname, username, email, password, token, date_create}
  */
 accountController.getAccount = async (req, res, next) => {
-  const query = {
-    text: 'SELECT * FROM accounts WHERE id = $1',
-    values: [res.locals.accountid]
-  };
-
-  const record = await pool.query(query);
-
-  res.locals.account = record.rows[0];
-  next();
+  let id = res.locals.accountid;
+  try{
+    const record = await pool.query('SELECT * FROM accounts WHERE id = $1', [id]);
+    res.locals.account = record.rows[0];
+    next();
+  }
+  catch(e){
+    next(new Error('Trouble retriving account'));
+  }
 }
 /**
  * SETS: the verified record to res.locals.id
@@ -88,23 +88,22 @@ accountController.getAccount = async (req, res, next) => {
 accountController.verifyAccount = async (req, res, next) => {
   const {username, password} = req.body;
 
-  const query = {
-    text: 'SELECT * FROM accounts WHERE username = $1',
-    values: [username]
-  };
+  try{
+    const result = await pool.query('SELECT * FROM accounts WHERE username = $1', [username]);
 
-  const result = await pool.query(query);
-
-  if(result.rowCount > 0){
-    const match = bcrypt.compareSync(password, result.rows[0].password);
-    if(match){
-      res.locals.accountid = result.rows[0].id;
-      next();
-    } else{
-      next(new Error('Wrong user/password, please try again'));
-    }
-  }else{
-    next(new Error('Wrong user/password, please try again'));
+    if(result.rowCount > 0){
+      const match = bcrypt.compareSync(password, result.rows[0].password);
+      if(match){
+        res.locals.accountid = result.rows[0].id;
+        next();
+      }else
+        next(new Error('Wrong user/password, please try again'));
+      
+    }else
+      next(new Error('Wrong user/password, please try again')); 
+  }
+  catch(e){
+    next(new Error('Encountered an issue verifying and account'))
   }
 }
 

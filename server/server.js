@@ -8,8 +8,8 @@ const path = require('path');
 
 // Import Controllers
 const accountController = require('./controllers/accountController.js');
-const sessionController = require('./sessionController.js');
-const snippetController = require('./snippetController.js');
+const sessionController = require('./controllers/sessionController.js/index.js');
+const snippetController = require('./controllers/snippetController.js/index.js');
 
 // Blanket Calls
 app.use(cors());
@@ -21,9 +21,6 @@ app.use('/build', express.static(path.join(__dirname, '../build')));
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/index.html'));
 });
-app.get('/gettags', snippetController.getAllUserTags);
-app.get('/getsnippetsbytag', snippetController.getSnippetIdsByTag, snippetController.getSnippetsBySnippetIds);
-app.get('/deletesnippetbyid', snippetController.deleteSnippet);
 
 // POST Endpoints
 /**
@@ -36,7 +33,6 @@ app.get('/deletesnippetbyid', snippetController.deleteSnippet);
  */
 // app.post('/login', accountController.verifyUser, sessionController.setCookie, sessionController.startSession);
 app.post('/login', accountController.verifyAccount, accountController.getAccount, (req, res, next) => {
-    console.log('RES SEND: ', res.locals.account);
     res.send(res.locals.account);
 });
 
@@ -45,20 +41,28 @@ app.post('/login', accountController.verifyAccount, accountController.getAccount
  * 
  * 1. Create account
  * 2. Get account
- * 3. TODO: Create session
- * 4. TODO: Set cookie
+ * 3. // TODO: Create session
+ * 4. // TODO: Set cookie
  */
 // app.post('/signup', accountController.createUser, sessionController.setCookie, sessionController.startSession);
 app.post('/signup', accountController.createAccount, accountController.getAccount, (req, res, next) => {
     res.send(res.locals.account);
 });
 
+/**
+ *  SNIPPET route
+ *  TODO: Post
+ * 
+ */
 // app.post('/createsnippet', snippetController.createSnippet, snippetController.createTags);
 app.post('/createsnippet', snippetController.createSnippet, (req, res, next) => {
     res.send('Snippet created');
 });
 
-// TODO: Catch all error handling
+// Catch all error handling
+app.use((err, req, res, next) => {
+    res.status(418).send(err);
+})
 
 // Server Port
 app.listen(3000, () => console.log('Listening on Port: 3000 .-.'));
