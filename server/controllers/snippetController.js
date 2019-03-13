@@ -30,11 +30,26 @@ snippetController.createSnippet = async (req, res, next) => {
 }
 /**
  * GET, create snippet
- * EXPECTS: {snippets: '', comments: '', accountid: #}
+ * EXPECTS: {accountid: #}
  */
 
-snippetController.getSnippet = async (req, res, next) => {
+snippetController.getSnippets = async (req, res, next) => {
+  const { accountid } = req.body;
 
+  const query = {
+    text: 'SELECT * FROM snippets WHERE id = $1',
+    values: [accountid]
+  };
+
+  try{
+    const result = await pool.query(query);
+   if(result.rowCount > 0) next();
+   else
+    next(new Error('Did not add a snippet to your account'));
+
+  }catch(e){
+    next(new Error('Insert snippet Error: ' + e));
+  }
 }
 
 
