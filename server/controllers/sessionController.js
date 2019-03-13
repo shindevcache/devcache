@@ -7,7 +7,7 @@ const sessionController = {};
 // Middleware Methods
 
 sessionController.setCookie = (req, res, next) => {
-  res.cookie('ssid', res.locals.token);
+  res.cookie('ssid', res.locals.token, {/** http only? */});
   next();
 };
 

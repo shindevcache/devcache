@@ -52,10 +52,10 @@ app.post('/signup', accountController.createAccount, accountController.getAccoun
 /**
  *  SNIPPET route
  *  TODO: Post
- * 
+ *  TODO: Verify account
  */
 // app.post('/createsnippet', snippetController.createSnippet, snippetController.createTags);
-app.post('/createsnippet', snippetController.createSnippet, (req, res, next) => {
+app.post('/api/snippet', snippetController.createSnippet, (req, res, next) => {
     res.send('Snippet created');
 });
 
