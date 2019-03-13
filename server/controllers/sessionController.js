@@ -32,27 +32,28 @@ sessionController.startSession = (req, res, next) => {
   }).catch(e => next(new Error('Problem - starting session: ' + e)));
 };
 
-// TODO: verify session and get the account id if found
+// verify session and get the account id if found
 sessionController.verifySession = async (req, res, next) => {
-  if(!req.cookies.ssid){
-    next(new Error('Not authorized for get snippets'));
-  }
-
-  const query = {
-    text: 'SELECT * FROM accounts WHERE token = $1',
-    values: [req.cookies.ssid]
-  };
-
-  try{
-    const account = await pool.query(query);
-    if(account.rowCount){
-      res.locals.accountid = account.rows[0].id;
-      next();
-    }else{
-      next();
+  if (!req.body.username && !req.body.password) {
+    next();
+  } else if (!req.cookies.ssid) {
+    next(new Error('Not authorized'));
+  } else {
+    const query = {
+      text: 'SELECT * FROM accounts WHERE token = $1',
+      values: [req.cookies.ssid]
+    };
+    try {
+      const account = await pool.query(query);
+      if (account.rowCount) {
+        res.locals.accountid = account.rows[0].id;
+        next();
+      } else {
+        next();
+      }
+    } catch (e) {
+      next(new Error('Session validation issue: ' + e));
     }
-  }catch(e){
-    next(new Error('Session validation issue: ' + e));
   }
 }
 module.exports = sessionController;

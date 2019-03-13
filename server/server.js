@@ -17,7 +17,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use('/build', express.static(path.join(__dirname, '../build')));
  
-// GET Endpoints
+// Domain root
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/index.html'));
 });
@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
  * 3. Create session
  * 4. Set cookie
  */
-app.post('/login', sessionController.verifySession, 
+app.post('/login', //sessionController.verifySession, 
     accountController.verifyAccount, accountController.getAccount,
     sessionController.startSession, sessionController.setCookie,
     snippetController.getSnippets,
