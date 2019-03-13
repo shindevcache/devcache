@@ -5,42 +5,44 @@ const uuid = require('uuid');
 const bcrypt = require('bcrypt');
 const saltRounds = 3;
 
-const controller = {};
+const accountController = {};
 
 // Middleware Methods
 
-controller.verifyUser = (req, res, next) => {
-  const { username, password } = req.body;
-  const query = {
-    name: 'verify-user',
-    text: 'SELECT * FROM accounts WHERE username = $1;',
-    values: [username]
-  };
+// accountController.verifyUser = (req, res, next) => {
+//   const { username, password } = req.body;
+//   const query = {
+//     name: 'verify-user',
+//     text: 'SELECT * FROM accounts WHERE username = $1;',
+//     values: [username]
+//   };
 
-  pool.query(query)
-  .then(result => {
-    const account = result.rows[0];
-    const hash = result.rows[0].password;
+//   pool.query(query)
+//   .then(result => {
+//     const account = result.rows[0];
+//     const hash = result.rows[0].password;
 
-    bcrypt.compare(password, hash, function(err, judgement){
-      if (judgement) {
-        const session_id = uuid();
-        res.locals.session_id = session_id;
-        res.locals.accountid = result.rows[0].accountid;
-        res.locals = { account };
-        next();
-      } else {
-        res.status(403).send('wrong pass :(');
-      };
-    });
-  })
-  .catch(err => console.error(err.stack));
-};
+//     bcrypt.compare(password, hash, function(err, judgement){
+//       if (judgement) {
+//         const session_id = uuid();
+//         res.locals.session_id = session_id;
+//         res.locals.accountid = result.rows[0].accountid;
+//         res.locals = { account };
+//         next();
+//       } else {
+//         res.status(403).send('wrong pass :(');
+//       };
+//     });
+//   })
+//   .catch(err => console.error(err.stack));
+// };
 
-controller.createUser = (req, res, next) => {
+/**
+ * SETS: the newly inserted record to res.locals.accountid
+ */
+accountController.createAccount = (req, res, next) => {
   const { fullname, username, email, password } = req.body;
 
-  console.log(req.body);
   bcrypt.hash(password, saltRounds, (err, hash) => {
     const query = {
       name: 'create-user',
@@ -50,16 +52,60 @@ controller.createUser = (req, res, next) => {
 
     pool.query(query)
     .then(result => {
-      console.log('After query', result);
-      console.log('RECORD', result.rows[0]);
-      const session_id = uuid();
-      res.locals.session_id = session_id;
-      res.locals.user_id = result.rows[0].id;
-      next();
+      if(result.rowCount > 0){
+        res.locals.accountid = result.rows[0].id;
+        next();
+      }else{
+        next(new Error('User not created'));
+      }
     })
     .catch(err => console.error(err.stack));
   });
-  next()
 };
 
-module.exports = controller;
+/**
+ * RETURNS: account object
+ * {id, fullname, username, email, password, token, date_create}
+ */
+accountController.getAccount = async (req, res, next) => {
+  const query = {
+    text: 'SELECT * FROM accounts WHERE id = $1',
+    values: [res.locals.accountid]
+  };
+
+  const record = await pool.query(query);
+
+  res.locals.account = record.rows[0];
+  next();
+}
+/**
+ * SETS: the verified record to res.locals.id
+ * 
+ * Check: 
+ * TODO: Session/Cookies? 
+ * TODO: Login?
+ */
+accountController.verifyAccount = async (req, res, next) => {
+  const {username, password} = req.body;
+
+  const query = {
+    text: 'SELECT * FROM accounts WHERE username = $1',
+    values: [username]
+  };
+
+  const result = await pool.query(query);
+
+  if(result.rowCount > 0){
+    const match = bcrypt.compareSync(password, result.rows[0].password);
+    if(match){
+      res.locals.accountid = result.rows[0].id;
+      next();
+    } else{
+      next(new Error('Wrong user/password, please try again'));
+    }
+  }else{
+    next(new Error('Wrong user/password, please try again'));
+  }
+}
+
+module.exports = accountController;

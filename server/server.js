@@ -26,16 +26,31 @@ app.get('/getsnippetsbytag', snippetController.getSnippetIdsByTag, snippetContro
 app.get('/deletesnippetbyid', snippetController.deleteSnippet);
 
 // POST Endpoints
-
+/**
+ * LOGIN
+ * 
+ * 1. Verify account
+ * 2. Get account
+ * 3. TODO: Create session
+ * 4. TODO: Set cookie
+ */
 // app.post('/login', accountController.verifyUser, sessionController.setCookie, sessionController.startSession);
-app.post('/login', accountController.verifyUser, (req, res, next) => {
+app.post('/login', accountController.verifyAccount, accountController.getAccount, (req, res, next) => {
     console.log('RES SEND: ', res.locals.account);
     res.send(res.locals.account);
 });
 
+/**
+ *  SIGN UP route
+ * 
+ * 1. Create account
+ * 2. Get account
+ * 3. TODO: Create session
+ * 4. TODO: Set cookie
+ */
 // app.post('/signup', accountController.createUser, sessionController.setCookie, sessionController.startSession);
-app.post('/signup', accountController.createUser, (req, res, next) => {
-    res.send("Sign up!");
+app.post('/signup', accountController.createAccount, accountController.getAccount, (req, res, next) => {
+    res.send(res.locals.account);
 });
 
 // app.post('/createsnippet', snippetController.createSnippet, snippetController.createTags);
@@ -43,6 +58,7 @@ app.post('/createsnippet', snippetController.createSnippet, (req, res, next) => 
     res.send('Snippet created');
 });
 
-// Server Port
+// TODO: Catch all error handling
 
+// Server Port
 app.listen(3000, () => console.log('Listening on Port: 3000 .-.'));
