@@ -17,7 +17,7 @@ class ShinApp extends Component {
       </div>
       )
     }
-    else {
+    else if (this.props.isLoggedIn === true){
       return (
       <div>
         <ShinMain />
