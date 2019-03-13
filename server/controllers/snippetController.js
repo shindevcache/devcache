@@ -8,7 +8,7 @@ const snippetController = {};
 // ------ SHIN devcache ------
 /**
  * POST, create snippet
- * EXPECTS: {snippets: '', comments: '', accountid: #}
+ * EXPECTS: {snippet: '', comments: '', accountid: #}
  */
 snippetController.createSnippet = async (req, res, next) => {
   const { snippet, comments, accountid } = req.body;
@@ -34,20 +34,26 @@ snippetController.createSnippet = async (req, res, next) => {
  */
 
 snippetController.getSnippets = async (req, res, next) => {
-  const { accountid } = req.body;
+  // console.log(req.cookies);
+  console.log('Account ID: ' + req.cookies);
+  const accountid = res.locals.accountid;
 
   const query = {
-    text: 'SELECT * FROM snippets WHERE id = $1',
+    text: 'SELECT * FROM snippets WHERE accountid = $1',
     values: [accountid]
   };
 
-  try{
-    const result = await pool.query(query);
-   if(result.rowCount > 0) next();
-   else
-    next(new Error('Did not add a snippet to your account'));
-
-  }catch(e){
+  try {
+    const snippets = await pool.query(query);
+    console.log(snippets.rowCount);
+    if (snippets.rowCount > 0) {
+      res.locals.snippets = snippets.rows;
+      next();
+    } else {
+      res.locals.snippets = [];
+      next();
+    }
+  } catch (e) {
     next(new Error('Insert snippet Error: ' + e));
   }
 }
