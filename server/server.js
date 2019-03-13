@@ -34,7 +34,10 @@ app.post('/signup', accountController.createUser, (req, res, next) => {
     res.send("Sign up!");
 });
 
-app.post('/createsnippet', snippetController.createSnippet, snippetController.createTags);
+// app.post('/createsnippet', snippetController.createSnippet, snippetController.createTags);
+app.post('/createsnippet', snippetController.createSnippet, (req, res, next) => {
+    res.send('Snippet created');
+});
 
 // Server Port
 
