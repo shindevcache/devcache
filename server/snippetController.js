@@ -6,17 +6,18 @@ const snippetController = {};
 // Middleware Methods
 
 snippetController.createSnippet = (req, res, next) => {
-  const { snippet, comments, project } = req.body;
-  const user_id = req.cookies.user_id;
-  const date = new Date();
+  const { snippet, comments } = req.body; // req.body should have snippet, comments, tags, and accountid
+  const accountid = req.cookies.user_id; //req.cookies.user_id needs to change
+  const date_created = new Date();
   const snippetQuery = {
     name: 'create-snippet',
-    text: 'INSERT into snippets (snippet, comments, project, date, user_id) values ($1, $2, $3, $4, $5) RETURNING id;',
-    values: [snippet, comments, project, date, user_id]
+    text: 'INSERT into snippets (snippet, comments, date_created, accountid) values ($1, $2, $3, $4) RETURNING id;', //needs to submit tags as well
+    values: [snippet, comments, date_created, accountid]
   };
 
   pool.query(snippetQuery)
   .then(result=> {
+    console.log('post snippet success');
     res.locals.snippet_id = result.rows[0].id
     next();
   })

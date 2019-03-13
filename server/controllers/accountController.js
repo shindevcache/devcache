@@ -10,6 +10,7 @@ const controller = {};
 // Middleware Methods
 
 controller.verifyUser = (req, res, next) => {
+  console.log(req.body);
   const { username, password } = req.body;
   const query = {
     name: 'verify-user',
@@ -17,15 +18,21 @@ controller.verifyUser = (req, res, next) => {
     values: [username]
   };
 
+  console.log('QUERY: ', query.text);
+
   pool.query(query)
   .then(result => {
+    console.log('RESULT: ', result);
+    const account = result.rows[0];
     const hash = result.rows[0].password;
 
     bcrypt.compare(password, hash, function(err, judgement){
       if (judgement) {
         const session_id = uuid();
         res.locals.session_id = session_id;
-        res.locals.user_id = result.rows[0].user_id;
+        res.locals.accountid = result.rows[0].accountid;
+        res.locals = { account };
+        console.log('RES LOCAL ACCOUNT', res.locals.account);
         next();
       } else {
         res.status(403).send('wrong pass :(');
@@ -33,7 +40,6 @@ controller.verifyUser = (req, res, next) => {
     });
   })
   .catch(err => console.error(err.stack));
-  next();
 };
 
 controller.createUser = (req, res, next) => {
