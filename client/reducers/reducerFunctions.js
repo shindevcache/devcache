@@ -58,6 +58,27 @@ const stateReducer = (state = initialState, action) => {
       }
     }
 
+    case types.LOGIN: {
+      let username = action.payload.username;
+      let email = action.payload.email;
+      let fullname = action.payload.fullname;
+      let accountID = action.payload.accountID; 
+      //what comes back to us from logging in should be: 
+      // {
+      //   username: ,
+      //   email: ,
+      //   fullname: ,
+      //   accountID: ,
+      // } ??????
+      return {
+        ...state,
+        username,
+        email,
+        fullname,
+        accountID
+      }
+    }
+
     case types.REGISTER_USER: {
       let password = '';
       return {

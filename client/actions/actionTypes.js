@@ -9,3 +9,4 @@ export const UPDATE_COMMENT = "UPDATE_COMMENT";
 export const UPDATE_TAGS = "UPDATE_TAGS";
 export const SUBMIT_SNIPPET = "SUBMIT_SNIPPET";
 export const UPDATE_SEARCH = "UPDATE_SEARCH";
+export const LOGIN = "LOGIN";
