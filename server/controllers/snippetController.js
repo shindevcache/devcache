@@ -5,25 +5,56 @@ const snippetController = {};
 
 // Middleware Methods
 
-snippetController.createSnippet = (req, res, next) => {
-  const { accountid, snippet, comments } = req.body; // req.body should have snippet, comments, tags, and accountid
-  // const accountid = req.cookies.accountid; //req.cookies.accountid needs to change
-  const date_created = new Date();
-  const snippetQuery = {
-    name: 'create-snippet',
-    text: 'INSERT into snippets (snippet, comments, date_created, accountid) values ($1, $2, current_timestamp, $3) RETURNING id;', //needs to submit tags as well
+// ------ SHIN devcache ------
+/**
+ * POST, create snippet
+ * EXPECTS: {snippets: '', comments: '', accountid: #}
+ */
+snippetController.createSnippet = async (req, res, next) => {
+  const { snippet, comments, accountid } = req.body;
+
+  const query = {
+    text: 'INSERT into snippets (snippet, comments, date_created, accountid) values ($1, $2, current_timestamp, $3) RETURNING id;',
     values: [snippet, comments, accountid]
   };
 
-  pool.query(snippetQuery)
-  .then(result=> {
-    console.log('post snippet success');
-    // res.locals.snippet_id = result.rows[0].id
-    next();
-  })
-  .catch(err => console.log(err.stack));
-};
+  try{
+    const result = await pool.query(query);
+   if(result.rowCount > 0) next();
+   else
+    next(new Error('Did not add a snippet to your account'));
 
+  }catch(e){
+    next(new Error('Insert snippet Error: ' + e));
+  }
+}
+/**
+ * GET, create snippet
+ * EXPECTS: {accountid: #}
+ */
+
+snippetController.getSnippets = async (req, res, next) => {
+  const { accountid } = req.body;
+
+  const query = {
+    text: 'SELECT * FROM snippets WHERE id = $1',
+    values: [accountid]
+  };
+
+  try{
+    const result = await pool.query(query);
+   if(result.rowCount > 0) next();
+   else
+    next(new Error('Did not add a snippet to your account'));
+
+  }catch(e){
+    next(new Error('Insert snippet Error: ' + e));
+  }
+}
+
+
+
+// -----  OLD devcache ------
 snippetController.createTags = (req, res) => {
   const promises = [];
   const snippet_id = res.locals.snippet_id;

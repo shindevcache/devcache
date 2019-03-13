@@ -33,11 +33,9 @@ module.exports = {
   devServer: {
     publicPath: '/build',
     contentBase: './client',
-    proxy: {
-      '/': {
-        target: 'http://localhost:3000',
-        secure: false
-      }
-    },
+    proxy: [{
+      context: ['/api'],
+      target: 'http://localhost:3000',
+    }]
   },
 };
