@@ -28,6 +28,9 @@
     "pg-promise": "^8.6.3",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
+    "react-redux": "^6.0.1",
+    "redux": "^4.0.1",
+    "redux-devtools-extension": "^2.13.8",
     "webpack": "^4.29.6"
   },
   "devDependencies": {

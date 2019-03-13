@@ -26,7 +26,7 @@ app.get('/deletesnippetbyid', snippetController.deleteSnippet);
 
 // app.post('/login', accountController.verifyUser, sessionController.setCookie, sessionController.startSession);
 app.post('/login', accountController.verifyUser, (req, res, next) => {
-    console.log('RES SEND: ', res.locals.account);
+    //console.log('RES SEND: ', res.locals.account);
     res.send(res.locals.account);
 });
 // app.post('/signup', accountController.createUser, sessionController.setCookie, sessionController.startSession);
