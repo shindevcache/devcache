@@ -7,35 +7,30 @@ const cors = require('cors');
 const path = require('path');
 
 // Import Controllers
-
-const controller = require('./controller.js');
+const accountController = require('./controllers/accountController.js');
 const sessionController = require('./sessionController.js');
 const snippetController = require('./snippetController.js');
 
 // Blanket Calls
-
 app.use(cors());
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use('/', express.static(path.join(__dirname, '../build')));
  
 // GET Endpoints
-
 app.get('/gettags', snippetController.getAllUserTags);
-
 app.get('/getsnippetsbytag', snippetController.getSnippetIdsByTag, snippetController.getSnippetsBySnippetIds);
-
 app.get('/deletesnippetbyid', snippetController.deleteSnippet);
 
 // POST Endpoints
 
-// app.post('/login', controller.verifyUser, sessionController.setCookie, sessionController.startSession);
-app.post('/login', controller.verifyUser, (req, res, next) => {
-    res.send("LOGIN, yay!");
+// app.post('/login', accountController.verifyUser, sessionController.setCookie, sessionController.startSession);
+app.post('/login', accountController.verifyUser, (req, res, next) => {
+    console.log('RES SEND: ', res.locals.account);
+    res.send(res.locals.account);
 });
-
-// app.post('/signup', controller.createUser, sessionController.setCookie, sessionController.startSession);
-app.post('/signup', controller.createUser, (req, res, next) => {
+// app.post('/signup', accountController.createUser, sessionController.setCookie, sessionController.startSession);
+app.post('/signup', accountController.createUser, (req, res, next) => {
     res.send("Sign up!");
 });
 

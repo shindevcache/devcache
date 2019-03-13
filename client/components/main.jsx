@@ -22,7 +22,7 @@ class Main extends Component {
       tags: '',
       search: '',
       userTags: [],
-      taggedSnippets: []
+      taggedSnippets: [],
     };
     
     this.updateSnippetContent = this.updateSnippetContent.bind(this);
@@ -98,8 +98,9 @@ class Main extends Component {
       body: JSON.stringify({ 
         snippet: this.state.snippet,
         comments: this.state.comments,
-        project: this.state.project,
+        // project: this.state.project,
         tags: this.state.tags
+        //should also have accountid, which will be passed down from App
       })
     })
     .then(res => {
