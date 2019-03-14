@@ -34,25 +34,22 @@ sessionController.startSession = (req, res, next) => {
 
 // verify session and get the account id if found
 sessionController.verifySession = async (req, res, next) => {
-  if (!req.cookies.ssid) {
-    next(new Error('Not authorized'));
-  } 
-  else {
-    const query = {
-      text: 'SELECT * FROM accounts WHERE token = $1',
-      values: [req.cookies.ssid]
-    };
-    try {
-      const account = await pool.query(query);
-      if (account.rowCount) {
-        res.locals.accountid = account.rows[0].id;
-        next();
-      } else {
-        res.redirect('/login');
-      }
-    } catch (e) {
-      next(new Error('Session validation issue: ' + e));
+  if(!res.locals.isSession) return next();
+
+  const query = {
+    text: 'SELECT * FROM accounts WHERE token = $1',
+    values: [req.cookies.ssid]
+  };
+  try {
+    const account = await pool.query(query);
+    if (account.rowCount) {
+      res.locals.accountid = account.rows[0].id;
+      next();
+    } else {
+      res.redirect('/login');
     }
+  } catch (e) {
+    next(new Error('Session validation issue: ' + e));
   }
 };
 

@@ -31,26 +31,10 @@ app.get('/', (req, res) => {
  * 3. Create session
  * 4. Set cookie
  */
-app.post('/login', accountController.verifySSIDAcount); 
-app.post('/quickLogin', accountController.verifySSIDAcount, accountController.getAccount,
-    sessionController.startSession, sessionController.setCookie,
-    snippetController.getSnippets,
-    (req, res, next) => {
-        res.send({account: res.locals.account, snippets: res.locals.snippets});
-    });
-app.post('/quickLogin', accountController.verifySSIDAcount, accountController.getAccount,
-    sessionController.startSession, sessionController.setCookie,
-    snippetController.getSnippets,
-    (req, res, next) => {
-        res.send({account: res.locals.account, snippets: res.locals.snippets});
-    });
-
-    // OLD login without cookie
-app.post('/loginold', //sessionController.verifySession, 
-    accountController.verifyAccount, accountController.getAccount,
-    sessionController.startSession, sessionController.setCookie,
-    snippetController.getSnippets,
-    (req, res, next) => {
+app.post('/login', accountController.verifyLoginRoute, sessionController.verifySession,
+    accountController.verifyAccount, accountController.getAccount, sessionController.startSession, 
+    sessionController.setCookie, snippetController.getSnippets, (req, res, next) => {
+        console.log('LOGIN cookie');
         res.send({account: res.locals.account, snippets: res.locals.snippets});
     });
 
