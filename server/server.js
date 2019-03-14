@@ -77,7 +77,8 @@ app.put('/api/snippet', sessionController.verifySession, snippetController.updat
 app.delete('/api/snippet', sessionController.verifySession, snippetController.deleteSnippet, (req, res, next) => {
     res.send('Snippet deleted');
 });
-app.get('/api/snippet', sessionController.verifySession, snippetController.getSnippets, (req, res, next) => {
+app.get('/api/snippet', //sessionController.verifySession, 
+snippetController.getSnippets, (req, res, next) => {
     res.send(res.locals.snippets);
 });
 //sessionController.verifySession
