@@ -106,6 +106,14 @@ accountController.verifyAccount = async (req, res, next) => {
     next(new Error('Encountered an issue verifying and account'))
   }
 }
+// accountController.verifySSIDAcount = async (req, res, next) => {
+//   if(!res.cookies.ssid){
+//     next();
+//   }
+//   else {
+
+//   }
+// }
 
 accountController.logoutAccount = async (req, res, next) => {
   const { ssid } = req.cookies;

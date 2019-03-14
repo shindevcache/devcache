@@ -34,8 +34,10 @@ snippetController.createSnippet = async (req, res, next) => {
  */
 
 snippetController.getSnippets = async (req, res, next) => {
-  // console.log(req.cookies);
-  console.log('Account ID: ' + req.cookies);
+  if (!req.cookies.ssid) {
+    next(new Error('Not authorized'));
+    return;
+  } 
   const accountid = res.locals.accountid;
 
   const query = {
@@ -45,7 +47,6 @@ snippetController.getSnippets = async (req, res, next) => {
 
   try {
     const snippets = await pool.query(query);
-    console.log(snippets.rowCount);
     if (snippets.rowCount > 0) {
       res.locals.snippets = snippets.rows;
       next();
@@ -57,111 +58,35 @@ snippetController.getSnippets = async (req, res, next) => {
     next(new Error('Insert snippet Error: ' + e));
   }
 }
-
-
-
-// -----  OLD devcache ------
-snippetController.createTags = (req, res) => {
-  const promises = [];
-  const snippet_id = res.locals.snippet_id;
-  const tags = req.body.tags.split(", "); // split on comma, then strip whitespace
-
-  tags.forEach(tag => {
-    const tagQuery = {
-      name: 'create-tags',
-      text: 'INSERT into tags (tag, snippet_id) values ($1, $2);',
-      values: [tag, snippet_id]
-    };
-
-    promises.push(tagQuery);
-  });
-
-  Promise.all(promises)
-  .then(values => {
-    values.forEach(tagQuery => pool.query(tagQuery));
-    res.status(201).send('Tags added.');
-  })
-  .catch(err => console.log(err.message));
-}
-
-snippetController.getAllUserTags = (req, res) => {
-  const user_id = req.cookies.user_id;
+snippetController.updateSnippet = async (req, res, next) => {
+  const {snippetid, snippet, comments} = req.body;
   const query = {
-    name: 'get-all-tags',
-    text: 'SELECT tags.tag FROM tags INNER JOIN snippets ON snippets.id = tags.snippet_id WHERE snippets.user_id = $1;',
-    values: [user_id]
+    text: 'UPDATE snippets SET snippet = $1, comments = $2 WHERE id = $3',
+    values: [snippet, comments, snippetid]
   };
 
-  pool.query(query)
-  .then(result => {
-    const tags = [];
-    result.rows.forEach(obj => tags.push(obj.tag));
-    res.json(tags);
-  });
-};
-
-snippetController.getSnippetIdsByTag = (req, res, next) => {
-  const tag = req.query.tag;
-  const IdQuery = {
-    name: 'getSnippetIdsByTag',
-    text: 'SELECT snippet_id FROM tags WHERE tags.tag = $1;',
-    values: [tag]
+  try{
+   const result = await pool.query(query);
+   next();
+  }
+  catch(e){
+    next(new Error('Problem with updating snippet: ' + e));
+  }
+}
+snippetController.deleteSnippet = (req, res, next) => {
+  const {snippetid} = req.body;
+  const query = {
+    text: 'DELETE FROM snippets WHERE id = $1',
+    values: [snippetid]
   };
 
-  pool.query(IdQuery)
-  .then(result => {
-    const resultArr = [];
-    result.rows.forEach(row => resultArr.push(row.snippet_id));
-    res.locals.snippets = resultArr;
-    next();
-  })
-  .catch(err => console.error(err.stack));
-};
-
-snippetController.getSnippetsBySnippetIds = (req, res) => {
-  const snippetIds = res.locals.snippets;
-  const userId = req.cookies.user_id;
-  const promises = [];
-
-  snippetIds.forEach(id =>{
-    const query = {
-      name: 'getSnippetsBySnippetId', 
-      text: 'SELECT * FROM snippets WHERE snippets.id = $1 AND snippets.user_id = $2;',
-      values: [id, userId]
-    };
-
-    promises.push(query);
-  });
-
-  Promise.all(promises)
-  .then(snippetQuery => {
-    const resultsArr = [];
-    snippetQuery.forEach((x, y) => {
-      if (y < 2) resultsArr.push(pool.query(x));
-    });
-
-    Promise.all(resultsArr)
-    .then(snippets => {
-      let arr = []; 
-      snippets.forEach(obj => arr.push(obj.rows));
-      res.json(arr);
-    }) 
-    .catch(err => console.error(err.stack));
-  });
-};
-
-snippetController.deleteSnippet = (req, res) => {
-  const id = req.query.id;
-  const deleteQuery = {
-    name: 'delete-snippet',
-    text: 'DELETE FROM snippets WHERE snippets.id = $1;',
-    values: [id]
-  };
-
-  pool.query(deleteQuery)
-  .then(data => {
-    res.status(200).send('Snippet deleted.')
-  });
-};
+  try{
+   const result = await pool.query(query);
+   next();
+  }
+  catch(e){
+    next(new Error('Problem with deleting snippet: ' + e));
+  }
+}
 
 module.exports = snippetController;
