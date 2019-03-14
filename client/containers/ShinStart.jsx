@@ -9,6 +9,7 @@ class ShinStart extends Component {
   }
 
   render(){
+    console.log(this.props.mode);
     if (this.props.mode === 'login'){
       return (
         <div className='login-box'>
@@ -34,10 +35,10 @@ class ShinStart extends Component {
             <button onClick={(e) => {e.preventDefault(); this.props.registerUser(this.props.username, this.props.password, this.props.fullname, this.props.email)}}>Submit</button>
             <a onClick={this.props.toggleMode}>Cancel</a>
           </form>
-        
         </div>
       )
     }
+    else return (<div>Test Text</div>)
   }
 }
 

@@ -1,23 +1,24 @@
 {
-  "name": "devcache",
-  "version": "0.1.0",
+  "name": "shindevcache",
+  "version": "2.0.0",
   "description": "A personalized cache of code snippets for developers.",
   "main": "index.js",
   "scripts": {
     "start": "nodemon server/server.js",
     "build": "webpack",
-    "dev": "webpack-dev-server --open | nodemon server/server.js"
+    "dev": "webpack-dev-server --open | nodemon server/server.js",
+    "test": "jest --verbose "
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/devcache/devcache.git"
+    "url": "git+https://github.com/shindevcache/devcache.git"
   },
-  "author": "Anthony Valentin, Parker Allen & Just Noah.",
+  "author": "Chris N., Sam Y., Ray Y.",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/devcache/devcache/issues"
+    "url": "https://github.com/shindevcache/devcache/issues"
   },
-  "homepage": "https://github.com/devcache/devcache#readme",
+  "homepage": "https://github.com/shindevcache/devcache#readme",
   "dependencies": {
     "axios": "^0.18.0",
     "bcrypt": "^3.0.4",
@@ -38,14 +39,22 @@
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
+    "@babel/plugin-transform-runtime": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
     "@babel/preset-react": "^7.0.0",
+    "babel-core": "^6.26.3",
+    "babel-jest": "^24.5.0",
     "babel-loader": "^8.0.5",
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.1",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.11.2",
+    "enzyme-to-json": "^3.3.5",
     "html-webpack-plugin": "^3.2.0",
+    "jest": "^24.5.0",
     "nodemon": "^1.18.10",
     "style-loader": "^0.23.1",
+    "supertest": "^4.0.0",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.2.1"
   }
