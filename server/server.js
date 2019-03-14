@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
  * 3. Create session
  * 4. Set cookie
  */
-app.post('/login', //sessionController.verifySession, 
+app.post('/login', sessionController.verifySession, 
     accountController.verifyAccount, accountController.getAccount,
     sessionController.startSession, sessionController.setCookie,
     snippetController.getSnippets,
@@ -70,6 +70,12 @@ app.post('/logout', accountController.logoutAccount, (req, res, next) => {
  */
 app.post('/api/snippet', sessionController.verifySession, snippetController.createSnippet, (req, res, next) => {
     res.send('Snippet created');
+});
+app.put('/api/snippet', sessionController.verifySession, snippetController.updateSnippet, (req, res, next) => {
+    res.send('Snippet updated');
+});
+app.delete('/api/snippet', sessionController.verifySession, snippetController.deleteSnippet, (req, res, next) => {
+    res.send('Snippet deleted');
 });
 app.get('/api/snippet', sessionController.verifySession, snippetController.getSnippets, (req, res, next) => {
     res.send(res.locals.snippets);
