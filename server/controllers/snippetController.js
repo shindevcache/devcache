@@ -62,7 +62,7 @@ snippetController.updateSnippet = async (req, res, next) => {
   const {snippetid, snippet, comments} = req.body;
   console.log('put request req.body :', req.body)
   const query = {
-    text: 'UPDATE snippets SET snippet = $1, comments = $2 WHERE id = $3',
+    text: 'UPDATE snippets SET snippet = $1, comments = $2, date_created = current_timestamp WHERE id = $3',
     values: [snippet, comments, snippetid]
   };
 
