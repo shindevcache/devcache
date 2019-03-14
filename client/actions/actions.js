@@ -59,14 +59,14 @@ export const updateTags = (value) => ({
   payload: value
 })
 
-export const submitSnippet = (snippet, comments, accountid) => dispatch => { 
-  return Axios.post('/api/snippet', {snippet: snippet, comments: comments, accountid: accountid})
-        .then(result => {
-          console.log('result from submitSnippet:', result)
-          console.log('submit success')
-          dispatch()
-        })
-        .catch(err => console.log(err))
+export const submitSnippet = (snippet, comments, accountid) => { 
+  // console.log('submitSnippet running')
+  Axios.post('/api/snippet', {snippet: snippet, comments: comments, accountid: accountid})
+    .then(result => console.log('result from submitSnippet Axios', result))
+  return ({
+    type: types.SUBMIT_SNIPPET
+  })
+  
 }
 
 export const updateSearch = (value) => ({
@@ -86,3 +86,9 @@ export const loginFail = (value) => ({
 export const logout = () => ({
   type: types.LOGOUT,
 })
+
+export const deleteSnippet = (currentSnippetid) => {
+  Axios.delete('/api/snippet', {snippetid: currentSnippetid})
+    .then(result => console.log('result from delete snippet', result))
+  return {type: types.DELETE_SNIPPET}
+}

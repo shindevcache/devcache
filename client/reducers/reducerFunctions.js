@@ -13,7 +13,8 @@ const initialState = {
   search: '',
   userTags: [],
   taggedSnippets: [],
-  accountid: ''
+  accountid: '',
+  currentSnippetid: ''
 }
 
 const stateReducer = (state = initialState, action) => {
@@ -51,27 +52,23 @@ const stateReducer = (state = initialState, action) => {
     }
 
     case types.LOGIN: {
-      let username = action.payload.username;
-      let email = action.payload.email;
-      let fullname = action.payload.fullname;
-      let accountID = action.payload.id; 
+      let username = action.payload.account.username;
+      let email = action.payload.account.email;
+      let fullname = action.payload.account.fullname;
+      let accountid = action.payload.account.id;
+      let snippet = action.payload.snippets[0].snippet;
+      let currentSnippetid = action.payload.snippets[0].id;
       return {
         ...state,
         username,
         email,
         fullname,
-        accountID,
+        accountid,
+        snippet,
+        currentSnippetid,
         isLoggedIn: true
       }
     }
-
-    // case types.REGISTER_USER: { //unused
-    //   let password = '';
-    //   return {
-    //     ...state,
-    //     password
-    //   }
-    // }
 
     case types.UPDATE_SNIPPET: {
       let snippet = action.payload;
@@ -98,10 +95,14 @@ const stateReducer = (state = initialState, action) => {
     }
 
     case types.SUBMIT_SNIPPET: {
-      let snippet = ''
+      let snippet = '';
+      let comments = '';
+      let tags = '';
       return {
         ...state,
-        snippet
+        snippet,
+        comments,
+        tags
       }
     }
 
@@ -143,7 +144,14 @@ const stateReducer = (state = initialState, action) => {
         search: '',
         userTags: [],
         taggedSnippets: [],
-        accountid: ''
+        accountid: '',
+        currentSnippetid: ''
+      }
+    }
+
+    case types.DELETE_SNIPPET: {
+      return {
+        ...state
       }
     }
 

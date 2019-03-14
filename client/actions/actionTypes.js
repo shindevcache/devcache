@@ -13,3 +13,4 @@ export const LOGIN = "LOGIN";
 export const TOGGLE_MODE = "TOGGLE_MODE";
 export const LOGIN_FAIL = "LOGIN_FAIL";
 export const LOGOUT = "LOGOUT";
+export const DELETE_SNIPPET = "DELETE_SNIPPET";

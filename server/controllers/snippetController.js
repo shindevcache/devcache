@@ -12,7 +12,7 @@ const snippetController = {};
  */
 snippetController.createSnippet = async (req, res, next) => {
   const { snippet, comments, accountid } = req.body;
-
+  console.log('req.body from createSnippet:', req.body)
   const query = {
     text: 'INSERT into snippets (snippet, comments, date_created, accountid) values ($1, $2, current_timestamp, $3) RETURNING id;',
     values: [snippet, comments, accountid]
@@ -35,7 +35,7 @@ snippetController.createSnippet = async (req, res, next) => {
 
 snippetController.getSnippets = async (req, res, next) => {
   // console.log(req.cookies);
-  console.log('Account ID: ' + req.cookies);
+  console.log('Account ID: ', req.cookies);
   const accountid = res.locals.accountid;
 
   const query = {
@@ -45,7 +45,7 @@ snippetController.getSnippets = async (req, res, next) => {
 
   try {
     const snippets = await pool.query(query);
-    console.log(snippets.rowCount);
+    console.log('snippets.rowCount', snippets.rowCount);
     if (snippets.rowCount > 0) {
       res.locals.snippets = snippets.rows;
       next();

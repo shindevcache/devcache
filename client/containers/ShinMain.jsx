@@ -9,7 +9,8 @@ const MapStateToProps = store => ({
   snippet: store.state.snippet,
   comments: store.state.comments,
   tags: store.state.tags,
-  accountid: store.state.accountid
+  accountid: store.state.accountid,
+  currentSnippetId: store.state.currentSnippetId
 })
 
 const MapDispatchToProps = dispatch => ({
@@ -27,6 +28,9 @@ const MapDispatchToProps = dispatch => ({
   },
   logout: () => {
     dispatch(actions.logout())
+  },
+  deleteSnippet: (currentSnippetId) => {
+    dispatch(actions.deleteSnippet(currentSnippetId))
   }
 })
 
@@ -39,10 +43,11 @@ class ShinMain extends Component {
     return (
     <div>
       <form>
-        <textarea placeholder="snippet display" rows={25} cols={88} onChange={(e) => this.props.updateSnippet(e.target.value)}></textarea>
+        <textarea placeholder="snippet display" rows={25} cols={88} onChange={(e) => this.props.updateSnippet(e.target.value)} value={this.props.snippet}></textarea>
         <input type="text" placeholder="comments" onChange={(e) => this.props.updateComments(e.target.value)}/>
         <input type="text" placeholder="tags" onChange={(e) => this.props.updateTags(e.target.value)}/>
         <button onClick={(e) => {e.preventDefault(); this.props.submitSnippet(this.props.snippet, this.props.comments, this.props.accountid)}}>Submit Snippet</button>
+        <button onClick={(e) => {e.preventDefault(); this.props.deleteSnippet(this.props.currentSnippetId)}}>Delete Snippet</button>
       </form>
       <button onClick={() => this.props.logout()}>Logout</button>
       <ShinSide />

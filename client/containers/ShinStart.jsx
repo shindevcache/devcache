@@ -12,6 +12,7 @@ class ShinStart extends Component {
     if (this.props.mode === 'login'){
       return (
         <div className='login'>
+        <h1>SHIN devCache</h1>
           <form>
             <input type='text' placeholder='username' onChange={(event) => this.props.updateUsername(event.target.value)} />
             <input type='password' placeholder='password' onChange={(event) => this.props.updatePassword(event.target.value)} />
