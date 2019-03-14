@@ -95,7 +95,7 @@ export const deleteSnippet = (currentSnippetid) => {
 }
 
 export const patchSnippet = (currentSnippetid, comments, snippet) => {
-  Axios.patch('/api/snippet', { data: {snippetid: currentSnippetid, comments: comments, snippet: snippet}})
+  Axios.put('/api/snippet', {snippetid: currentSnippetid, comments: comments, snippet: snippet})
   .then(result => console.log('update success: ', result))
   return {type: types.PATCH_SNIPPET}
 }

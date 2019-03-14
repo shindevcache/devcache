@@ -41,7 +41,7 @@ snippetController.getSnippets = async (req, res, next) => {
   const accountid = res.locals.accountid;
 
   const query = {
-    text: 'SELECT * FROM snippets WHERE accountid = $1',
+    text: 'SELECT * FROM snippets WHERE accountid = $1 ORDER BY date_created DESC',
     values: [accountid]
   };
 
