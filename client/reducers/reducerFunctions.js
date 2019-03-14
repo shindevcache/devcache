@@ -150,8 +150,10 @@ const stateReducer = (state = initialState, action) => {
     }
 
     case types.DELETE_SNIPPET: {
+      let snippet = '';
       return {
-        ...state
+        ...state,
+        snippet
       }
     }
 

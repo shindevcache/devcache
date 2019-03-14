@@ -32,14 +32,14 @@ export const loginUser = (username, password) => dispatch => {
 
 export const logIn = (userInfo) => ({
   type: types.LOGIN,
-  payload: userInfo //
+  payload: userInfo
 })
 
 export const registerUser = (username, password, fullname, email) => dispatch => {
   return Axios.post('/signup', {username: username, password: password, fullname: fullname, email: email})
     .then(userInfo => {
       console.log('register success')
-      dispatch(logIn(userInfo))
+      dispatch(logIn(userInfo.data))
     })
     .catch(err => console.log(err))
 }
@@ -54,7 +54,7 @@ export const updateComments = (value) => ({
   payload: value
 })
 
-export const updateTags = (value) => ({
+export const updateTags = (snippetid, comments, snippet) => ({
   type: types.UPDATE_TAGS,
   payload: value
 })
@@ -88,7 +88,14 @@ export const logout = () => ({
 })
 
 export const deleteSnippet = (currentSnippetid) => {
-  Axios.delete('/api/snippet', {snippetid: currentSnippetid})
+  console.log('currentSnippetid from deleteSnippet:', currentSnippetid)
+  Axios.delete('/api/snippet', { data: {snippetid: currentSnippetid}})
     .then(result => console.log('result from delete snippet', result))
   return {type: types.DELETE_SNIPPET}
+}
+
+export const patchSnippet = (currentSnippetid, comments, snippet) => {
+  Axios.patch('/api/snippet', { data: {snippetid: currentSnippetid, comments: comments, snippet: snippet}})
+  .then(result => console.log('update success: ', result))
+  return {type: types.PATCH_SNIPPET}
 }

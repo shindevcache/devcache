@@ -60,6 +60,7 @@ snippetController.getSnippets = async (req, res, next) => {
 }
 snippetController.updateSnippet = async (req, res, next) => {
   const {snippetid, snippet, comments} = req.body;
+  console.log('put request req.body :', req.body)
   const query = {
     text: 'UPDATE snippets SET snippet = $1, comments = $2 WHERE id = $3',
     values: [snippet, comments, snippetid]
@@ -73,8 +74,10 @@ snippetController.updateSnippet = async (req, res, next) => {
     next(new Error('Problem with updating snippet: ' + e));
   }
 }
-snippetController.deleteSnippet = (req, res, next) => {
+snippetController.deleteSnippet = async (req, res, next) => {
   const {snippetid} = req.body;
+  console.log('REQ DA BODY: ', req.body);
+  console.log('snippet id: ', snippetid)
   const query = {
     text: 'DELETE FROM snippets WHERE id = $1',
     values: [snippetid]
@@ -82,6 +85,7 @@ snippetController.deleteSnippet = (req, res, next) => {
 
   try{
    const result = await pool.query(query);
+   console.log('result from deleteSnippet in controller:', result);
    next();
   }
   catch(e){

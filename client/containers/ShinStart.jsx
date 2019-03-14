@@ -11,8 +11,8 @@ class ShinStart extends Component {
   render(){
     if (this.props.mode === 'login'){
       return (
-        <div className='login'>
-        <h1>SHIN devCache</h1>
+        <div className='login-box'>
+        <h3>SHIN devCache</h3>
           <form>
             <input type='text' placeholder='username' onChange={(event) => this.props.updateUsername(event.target.value)} />
             <input type='password' placeholder='password' onChange={(event) => this.props.updatePassword(event.target.value)} />
@@ -24,15 +24,17 @@ class ShinStart extends Component {
     }
     if (this.props.mode === 'register'){
       return (
-        <div className='register'>
+        <div className='login-box'>
           <form>
+            <h3>Register</h3>
             <input type='text' placeholder='username' onChange={(event) => this.props.updateUsername(event.target.value)} />
             <input type='password' placeholder='password' onChange={(event) => this.props.updatePassword(event.target.value)} />
             <input type='text' placeholder='Full Name' onChange={(event) => this.props.updateFullname(event.target.value)} />
             <input type='text' placeholder='Email' onChange={(event) => this.props.updateEmail(event.target.value)} />
             <button onClick={(e) => {e.preventDefault(); this.props.registerUser(this.props.username, this.props.password, this.props.fullname, this.props.email)}}>Submit</button>
+            <a onClick={this.props.toggleMode}>Cancel</a>
           </form>
-        <a onClick={this.props.toggleMode}>Cancel</a>
+        
         </div>
       )
     }

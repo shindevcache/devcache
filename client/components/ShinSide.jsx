@@ -21,7 +21,7 @@ class ShinSide extends Component {
 
   render(){
     return (
-      <div>
+      <div className='side-bar'>
         <input type="text" placeholder="search" />
         {/* Once tags are implemented, render big tags array here */}
       </div>
