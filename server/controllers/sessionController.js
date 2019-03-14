@@ -34,11 +34,10 @@ sessionController.startSession = (req, res, next) => {
 
 // verify session and get the account id if found
 sessionController.verifySession = async (req, res, next) => {
-  if (!req.body.username && !req.body.password) {
-    next();
-  } else if (!req.cookies.ssid) {
+  if (!req.cookies.ssid) {
     next(new Error('Not authorized'));
-  } else {
+  } 
+  else {
     const query = {
       text: 'SELECT * FROM accounts WHERE token = $1',
       values: [req.cookies.ssid]
@@ -49,11 +48,12 @@ sessionController.verifySession = async (req, res, next) => {
         res.locals.accountid = account.rows[0].id;
         next();
       } else {
-        next();
+        res.redirect('/login');
       }
     } catch (e) {
       next(new Error('Session validation issue: ' + e));
     }
   }
-}
+};
+
 module.exports = sessionController;
