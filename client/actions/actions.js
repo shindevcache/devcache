@@ -32,14 +32,14 @@ export const loginUser = (username, password) => dispatch => {
 
 export const logIn = (userInfo) => ({
   type: types.LOGIN,
-  payload: userInfo //
+  payload: userInfo
 })
 
 export const registerUser = (username, password, fullname, email) => dispatch => {
   return Axios.post('/signup', {username: username, password: password, fullname: fullname, email: email})
     .then(userInfo => {
       console.log('register success')
-      dispatch(logIn(userInfo))
+      dispatch(logIn(userInfo.data))
     })
     .catch(err => console.log(err))
 }
@@ -54,19 +54,19 @@ export const updateComments = (value) => ({
   payload: value
 })
 
-export const updateTags = (value) => ({
+export const updateTags = (snippetid, comments, snippet) => ({
   type: types.UPDATE_TAGS,
   payload: value
 })
 
-export const submitSnippet = (snippet, comments, accountid) => dispatch => { 
-  return Axios.post('/api/snippet', {snippet: snippet, comments: comments, accountid: accountid})
-        .then(result => {
-          console.log('result from submitSnippet:', result)
-          console.log('submit success')
-          dispatch()
-        })
-        .catch(err => console.log(err))
+export const submitSnippet = (snippet, comments, accountid) => { 
+  // console.log('submitSnippet running')
+  Axios.post('/api/snippet', {snippet: snippet, comments: comments, accountid: accountid})
+    .then(result => console.log('result from submitSnippet Axios', result))
+  return ({
+    type: types.SUBMIT_SNIPPET
+  })
+  
 }
 
 export const updateSearch = (value) => ({
@@ -86,3 +86,16 @@ export const loginFail = (value) => ({
 export const logout = () => ({
   type: types.LOGOUT,
 })
+
+export const deleteSnippet = (currentSnippetid) => {
+  console.log('currentSnippetid from deleteSnippet:', currentSnippetid)
+  Axios.delete('/api/snippet', { data: {snippetid: currentSnippetid}})
+    .then(result => console.log('result from delete snippet', result))
+  return {type: types.DELETE_SNIPPET}
+}
+
+export const patchSnippet = (currentSnippetid, comments, snippet) => {
+  Axios.put('/api/snippet', {snippetid: currentSnippetid, comments: comments, snippet: snippet})
+  .then(result => console.log('update success: ', result))
+  return {type: types.PATCH_SNIPPET}
+}

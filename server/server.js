@@ -68,7 +68,7 @@ app.post('/logout', accountController.logoutAccount, (req, res, next) => {
  *  Post
  *  TODO: Verify account
  */
-app.post('/api/snippet', sessionController.verifySession, snippetController.createSnippet, (req, res, next) => {
+app.post('/api/snippet', snippetController.createSnippet, (req, res, next) => {
     res.send('Snippet created');
 });
 app.put('/api/snippet', sessionController.verifySession, snippetController.updateSnippet, (req, res, next) => {
@@ -77,10 +77,11 @@ app.put('/api/snippet', sessionController.verifySession, snippetController.updat
 app.delete('/api/snippet', sessionController.verifySession, snippetController.deleteSnippet, (req, res, next) => {
     res.send('Snippet deleted');
 });
-app.get('/api/snippet', sessionController.verifySession, snippetController.getSnippets, (req, res, next) => {
+app.get('/api/snippet', //sessionController.verifySession, 
+snippetController.getSnippets, (req, res, next) => {
     res.send(res.locals.snippets);
 });
-
+//sessionController.verifySession
 
 // Catch all error handling
 app.use((err, req, res, next) => {
