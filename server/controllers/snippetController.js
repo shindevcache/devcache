@@ -73,7 +73,7 @@ snippetController.updateSnippet = async (req, res, next) => {
     next(new Error('Problem with updating snippet: ' + e));
   }
 }
-snippetController.deleteSnippet = (req, res, next) => {
+snippetController.deleteSnippet = async (req, res, next) => {
   const {snippetid} = req.body;
   const query = {
     text: 'DELETE FROM snippets WHERE id = $1',
