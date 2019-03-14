@@ -131,4 +131,164 @@ accountController.logoutAccount = async (req, res, next) => {
   }
 }
 
+accountController.logoutAccount = async (req, res, next) => {
+  const { ssid } = req.cookies;
+  const query = {
+    text: 'UPDATE accounts SET token = null WHERE token = $1',
+    values: [ssid]
+  }
+
+  try{
+    await pool.query(query);
+    res.cookie('ssid', '', {expires: new Date(0)});
+    next();
+  }catch(e){
+    next(new Error('Problem on logout: ' + e));
+  }
+}
+
+accountController.logoutAccount = async (req, res, next) => {
+  const { ssid } = req.cookies;
+  const query = {
+    text: 'UPDATE accounts SET token = null WHERE token = $1',
+    values: [ssid]
+  }
+
+  try{
+    await pool.query(query);
+    res.cookie('ssid', '', {expires: new Date(0)});
+    next();
+  }catch(e){
+    next(new Error('Problem on logout: ' + e));
+  }
+}
+
+accountController.logoutAccount = async (req, res, next) => {
+  const { ssid } = req.cookies;
+  const query = {
+    text: 'UPDATE accounts SET token = null WHERE token = $1',
+    values: [ssid]
+  }
+
+  try{
+    await pool.query(query);
+    res.cookie('ssid', '', {expires: new Date(0)});
+    next();
+  }catch(e){
+    next(new Error('Problem on logout: ' + e));
+  }
+}
+
+accountController.logoutAccount = async (req, res, next) => {
+  const { ssid } = req.cookies;
+  const query = {
+    text: 'UPDATE accounts SET token = null WHERE token = $1',
+    values: [ssid]
+  }
+
+  try{
+    await pool.query(query);
+    res.cookie('ssid', '', {expires: new Date(0)});
+    next();
+  }catch(e){
+    next(new Error('Problem on logout: ' + e));
+  }
+}
+
+accountController.logoutAccount = async (req, res, next) => {
+  const { ssid } = req.cookies;
+  const query = {
+    text: 'UPDATE accounts SET token = null WHERE token = $1',
+    values: [ssid]
+  }
+
+  try{
+    await pool.query(query);
+    res.cookie('ssid', '', {expires: new Date(0)});
+    next();
+  }catch(e){
+    next(new Error('Problem on logout: ' + e));
+  }
+}
+
+accountController.logoutAccount = async (req, res, next) => {
+  const { ssid } = req.cookies;
+  const query = {
+    text: 'UPDATE accounts SET token = null WHERE token = $1',
+    values: [ssid]
+  }
+
+  try{
+    await pool.query(query);
+    res.cookie('ssid', '', {expires: new Date(0)});
+    next();
+  }catch(e){
+    next(new Error('Problem on logout: ' + e));
+  }
+}
+
+accountController.logoutAccount = async (req, res, next) => {
+  const { ssid } = req.cookies;
+  const query = {
+    text: 'UPDATE accounts SET token = null WHERE token = $1',
+    values: [ssid]
+  }
+
+  try{
+    await pool.query(query);
+    res.cookie('ssid', '', {expires: new Date(0)});
+    next();
+  }catch(e){
+    next(new Error('Problem on logout: ' + e));
+  }
+}
+
+accountController.logoutAccount = async (req, res, next) => {
+  const { ssid } = req.cookies;
+  const query = {
+    text: 'UPDATE accounts SET token = null WHERE token = $1',
+    values: [ssid]
+  }
+
+  try{
+    await pool.query(query);
+    res.cookie('ssid', '', {expires: new Date(0)});
+    next();
+  }catch(e){
+    next(new Error('Problem on logout: ' + e));
+  }
+}
+
+accountController.logoutAccount = async (req, res, next) => {
+  const { ssid } = req.cookies;
+  const query = {
+    text: 'UPDATE accounts SET token = null WHERE token = $1',
+    values: [ssid]
+  }
+
+  try{
+    await pool.query(query);
+    res.cookie('ssid', '', {expires: new Date(0)});
+    next();
+  }catch(e){
+    next(new Error('Problem on logout: ' + e));
+  }
+}
+
+accountController.logoutAccount = async (req, res, next) => {
+  const { ssid } = req.cookies;
+  const query = {
+    text: 'UPDATE accounts SET token = null WHERE token = $1',
+    values: [ssid]
+  }
+
+  try{
+    await pool.query(query);
+    res.cookie('ssid', '', {expires: new Date(0)});
+    next();
+  }catch(e){
+    next(new Error('Problem on logout: ' + e));
+  }
+}
+
 module.exports = accountController;

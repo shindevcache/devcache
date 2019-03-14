@@ -12,7 +12,7 @@ const snippetController = {};
  */
 snippetController.createSnippet = async (req, res, next) => {
   const { snippet, comments, accountid } = req.body;
-
+  console.log('req.body from createSnippet:', req.body)
   const query = {
     text: 'INSERT into snippets (snippet, comments, date_created, accountid) values ($1, $2, current_timestamp, $3) RETURNING id;',
     values: [snippet, comments, accountid]
@@ -41,7 +41,7 @@ snippetController.getSnippets = async (req, res, next) => {
   const accountid = res.locals.accountid;
 
   const query = {
-    text: 'SELECT * FROM snippets WHERE accountid = $1',
+    text: 'SELECT * FROM snippets WHERE accountid = $1 ORDER BY date_created DESC',
     values: [accountid]
   };
 
@@ -60,6 +60,7 @@ snippetController.getSnippets = async (req, res, next) => {
 }
 snippetController.updateSnippet = async (req, res, next) => {
   const {snippetid, snippet, comments} = req.body;
+  console.log('put request req.body :', req.body)
   const query = {
     text: 'UPDATE snippets SET snippet = $1, comments = $2, date_created = current_timestamp WHERE id = $3',
     values: [snippet, comments, snippetid]
@@ -75,6 +76,8 @@ snippetController.updateSnippet = async (req, res, next) => {
 }
 snippetController.deleteSnippet = async (req, res, next) => {
   const {snippetid} = req.body;
+  console.log('REQ DA BODY: ', req.body);
+  console.log('snippet id: ', snippetid)
   const query = {
     text: 'DELETE FROM snippets WHERE id = $1',
     values: [snippetid]
@@ -82,6 +85,7 @@ snippetController.deleteSnippet = async (req, res, next) => {
 
   try{
    const result = await pool.query(query);
+   console.log('result from deleteSnippet in controller:', result);
    next();
   }
   catch(e){

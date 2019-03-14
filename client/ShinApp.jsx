@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 
 import ShinStart from './containers/ShinStart.jsx';
 import ShinMain from './containers/ShinMain.jsx';
+import ShinSnippet from './containers/ShinSnippet.jsx';
 
 class ShinApp extends Component {
   constructor(props){
     super(props)
   }
-  
+
+
   render(){
     if (this.props.isLoggedIn === false){
       return (
@@ -21,6 +23,7 @@ class ShinApp extends Component {
       return (
       <div>
         <ShinMain />
+        <ShinSnippet />
       </div>
       )
     }
