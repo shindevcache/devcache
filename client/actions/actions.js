@@ -83,9 +83,10 @@ export const loginFail = (value) => ({
   payload: value
 })
 
-export const logout = () => ({
-  type: types.LOGOUT,
-})
+export const logout = () => {
+  Axios.post('/logout')
+  return {type: types.LOGOUT}
+}
 
 export const deleteSnippet = (currentSnippetid) => {
   console.log('currentSnippetid from deleteSnippet:', currentSnippetid)
