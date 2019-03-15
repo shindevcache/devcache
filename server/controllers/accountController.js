@@ -86,6 +86,8 @@ accountController.getAccount = async (req, res, next) => {
  * TODO: Login?
  */
 accountController.verifyAccount = async (req, res, next) => {
+  if(res.locals.isSession) return next();
+
   const {username, password} = req.body;
 
   try{
@@ -106,21 +108,24 @@ accountController.verifyAccount = async (req, res, next) => {
     next(new Error('Encountered an issue verifying and account'))
   }
 }
-// accountController.verifySSIDAcount = async (req, res, next) => {
-//   if(!res.cookies.ssid){
-//     next();
-//   }
-//   else {
 
-//   }
-// }
+accountController.verifyLoginRoute = (req, res, next) => {
+  console.log('COOKIE: ', req.cookies.ssid);
+  if(req.cookies.ssid){ 
+    res.locals.isSession = true;
+  }
+  else {
+    res.locals.isSession = false;
+  }
+  next();
+}
 
 accountController.logoutAccount = async (req, res, next) => {
   const { ssid } = req.cookies;
   const query = {
     text: 'UPDATE accounts SET token = null WHERE token = $1',
     values: [ssid]
-  }
+  };
 
   try{
     await pool.query(query);
@@ -133,6 +138,7 @@ accountController.logoutAccount = async (req, res, next) => {
 
 accountController.logoutAccount = async (req, res, next) => {
   const { ssid } = req.cookies;
+  console.log('Cooked SSID: ', ssid);
   const query = {
     text: 'UPDATE accounts SET token = null WHERE token = $1',
     values: [ssid]

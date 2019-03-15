@@ -34,10 +34,6 @@ snippetController.createSnippet = async (req, res, next) => {
  */
 
 snippetController.getSnippets = async (req, res, next) => {
-  if (!req.cookies.ssid) {
-    next(new Error('Not authorized'));
-    return;
-  } 
   const accountid = res.locals.accountid;
 
   const query = {
