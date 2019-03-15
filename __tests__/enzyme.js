@@ -18,8 +18,8 @@ describe('React Redux unit tests', () => {
     });
 
     it('Contains an h3 tag with text "SHIN devCache', () => {
-      expect(wrapper.text()).toMatch('Test Text');
-      // expect(wrapper.find('h3').text()).toMatch("SHIN devCache");
+      // expect(wrapper.text()).toMatch('Test Text');
+      expect(wrapper.find('h3').text()).toMatch("SHIN devCache");
     })
   })
 })
