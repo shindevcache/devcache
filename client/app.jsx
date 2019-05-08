@@ -80,7 +80,6 @@ class App extends Component {
       body: JSON.stringify({ username, password })
     })
     .then(res => { //res should have an account object here. Store the 'id' property of this account object in state, and pass it down to Main, so that Main can use it when submitting snippets.
-      console.log('res:', res)
       if (res.ok) this.setState({
         ...this.state,
          isLoggedIn: true,

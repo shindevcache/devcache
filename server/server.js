@@ -34,7 +34,6 @@ app.get('/', (req, res) => {
 app.post('/login', accountController.verifyLoginRoute, sessionController.verifySession,
     accountController.verifyAccount, accountController.getAccount, sessionController.startSession, 
     sessionController.setCookie, snippetController.getSnippets, (req, res, next) => {
-        console.log('LOGIN cookie');
         res.send({account: res.locals.account, snippets: res.locals.snippets});
     });
 

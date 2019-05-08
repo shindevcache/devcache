@@ -90,7 +90,6 @@ class Main extends Component {
   // Database Methods
 
   submitSnippet() {
-    console.log('this.props:', this.props.accountid)
     fetch('http://localhost:3000/createsnippet', {
       headers: { "Content-Type": "application/json" }, 
       method: 'post',

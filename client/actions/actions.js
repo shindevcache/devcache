@@ -24,10 +24,9 @@ export const updateEmail = (value) => ({
 export const loginUser = (username, password) => dispatch => {
   return Axios.post('/login', {username: username, password: password})
     .then(userInfo => {
-      //console.log('userInfo.data upon login:', userInfo.data);
-      dispatch(logIn(userInfo.data)) //return?
+      dispatch(logIn(userInfo.data)) 
     })
-    .catch(err => console.log(err)) // ???
+    .catch(err => console.log(err)) 
 }
 
 export const logIn = (userInfo) => ({
@@ -38,7 +37,6 @@ export const logIn = (userInfo) => ({
 export const registerUser = (username, password, fullname, email) => dispatch => {
   return Axios.post('/signup', {username: username, password: password, fullname: fullname, email: email})
     .then(userInfo => {
-      console.log('register success')
       dispatch(logIn(userInfo.data))
     })
     .catch(err => console.log(err))
@@ -60,7 +58,6 @@ export const updateTags = (snippetid, comments, snippet) => ({
 })
 
 export const submitSnippet = (snippet, comments, accountid) => { 
-  // console.log('submitSnippet running')
   Axios.post('/api/snippet', {snippet: snippet, comments: comments, accountid: accountid})
     .then(result => console.log('result from submitSnippet Axios', result))
   return ({
@@ -89,7 +86,6 @@ export const logout = () => {
 }
 
 export const deleteSnippet = (currentSnippetid) => {
-  console.log('currentSnippetid from deleteSnippet:', currentSnippetid)
   Axios.delete('/api/snippet', { data: {snippetid: currentSnippetid}})
     .then(result => console.log('result from delete snippet', result))
   return {type: types.DELETE_SNIPPET}

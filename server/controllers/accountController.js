@@ -110,7 +110,6 @@ accountController.verifyAccount = async (req, res, next) => {
 }
 
 accountController.verifyLoginRoute = (req, res, next) => {
-  console.log('COOKIE: ', req.cookies.ssid);
   if(req.cookies.ssid){ 
     res.locals.isSession = true;
   }
@@ -138,7 +137,6 @@ accountController.logoutAccount = async (req, res, next) => {
 
 accountController.logoutAccount = async (req, res, next) => {
   const { ssid } = req.cookies;
-  console.log('Cooked SSID: ', ssid);
   const query = {
     text: 'UPDATE accounts SET token = null WHERE token = $1',
     values: [ssid]
