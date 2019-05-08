@@ -4,9 +4,9 @@ import { combineReducers } from 'redux';
 import reducerFunctions from './reducerFunctions';
 
 //combine reducer functions
-const reducers = combineReducers({
+const rootReducer = combineReducers({
   state: reducerFunctions
 })
 
 //export the combined reducer functions
-export default reducers;
+export default rootReducer;

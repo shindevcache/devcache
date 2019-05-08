@@ -24,7 +24,7 @@ export const updateEmail = (value) => ({
 export const loginUser = (username, password) => dispatch => {
   return Axios.post('/login', {username: username, password: password})
     .then(userInfo => {
-      console.log('userInfo.data upon login:', userInfo.data);
+      //console.log('userInfo.data upon login:', userInfo.data);
       dispatch(logIn(userInfo.data)) //return?
     })
     .catch(err => console.log(err)) // ???

@@ -50,7 +50,7 @@ class ShinMain extends Component {
           <form>
             <textarea placeholder="snippet display" rows={25} cols={88} onChange={(e) => this.props.updateSnippet(e.target.value)} value={this.props.snippet}></textarea>
             <input type="text" placeholder="comments" onChange={(e) => this.props.updateComments(e.target.value)} value={this.props.comments}/>
-            <input type="text" placeholder="tags" onChange={(e) => this.props.updateTags(e.target.value)} value={this.props.tags}/>
+            <input type="text" placeholder="tags" onChange={(e) => this.props.updateTags(e.target.value)} />
             <button onClick={(e) => {e.preventDefault(); this.props.submitSnippet(this.props.snippet, this.props.comments, this.props.accountid)}}>Submit Snippet</button>
             <button onClick={(e) => {e.preventDefault(); this.props.deleteSnippet(this.props.currentSnippetid)}}>Delete Snippet</button>
             <button onClick={(e) => {e.preventDefault(); this.props.patchSnippet(this.props.currentSnippetid, this.props.comments, this.props.snippet)}}>Update Snippet</button>
